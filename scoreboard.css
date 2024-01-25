@@ -1,7 +1,7 @@
 body,html {
     margin: 0;
     padding: 0;
-    background-color:rgba(138, 138, 138, 0);
+    background-color:rgb(138, 138, 138);
 }
 * {
     box-sizing: border-box;
