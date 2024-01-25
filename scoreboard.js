@@ -487,8 +487,8 @@ async function handleHomeForm(event) {
         });
     });
 
-    fetch("images/homePic.png", {cache: 'reload', mode: 'no-cors'})
-    .then(document.getElementById('homePic').src = "images/homePic.png");
+    fetch("public/images/homePic.png", {cache: 'reload', mode: 'no-cors'})
+    .then(document.getElementById('homePic').src = "public/images/homePic.png");
     return false;
 } 
 
@@ -526,8 +526,8 @@ async function handleAwayForm(event) {
         });
     });
 
-    fetch("images/awayPic.png", {cache: 'reload', mode: 'no-cors'})
-    .then(document.getElementById('awayPic').src = "images/awayPic.png");
+    fetch("public/images/awayPic.png", {cache: 'reload', mode: 'no-cors'})
+    .then(document.getElementById('awayPic').src = "public/images/awayPic.png");
     return false;
 } 
 

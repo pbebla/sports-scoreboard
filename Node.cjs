@@ -11,7 +11,7 @@ const handleError = (err, res) => {
   };
 const app = express();
 const upload = multer({
-    dest: "/images/"
+    dest: "/public/images/"
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
 });
 app.use(express.static(__dirname));
@@ -31,7 +31,7 @@ app.post('/awayJSON', (req, res) => {
 });
 app.post('/homePNG', upload.single('homeFile'), (req, res) => {
     const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, "./images/homePic.png");
+    const targetPath = path.join(__dirname, "./public/images/homePic.png");
     if (path.extname(req.file.originalname).toLowerCase() === ".png") {
       fs.rename(tempPath, targetPath, err => {
         if (err) return handleError(err, res);
@@ -56,7 +56,7 @@ app.post('/homePNG', upload.single('homeFile'), (req, res) => {
 });
 app.post('/awayPNG', upload.single('awayFile'), (req, res) => {
     const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, "./images/awayPic.png");
+    const targetPath = path.join(__dirname, "./public/images/awayPic.png");
     if (path.extname(req.file.originalname).toLowerCase() === ".png") {
       fs.rename(tempPath, targetPath, err => {
         if (err) return handleError(err, res);
@@ -80,10 +80,10 @@ app.post('/awayPNG', upload.single('awayFile'), (req, res) => {
     }
 });
 app.get("/homePic.png", (req, res) => {
-    res.sendFile(path.join(__dirname, "./images/homePic.png"));
+    res.sendFile(path.join(__dirname, "./public/images/homePic.png"));
 });
 app.get("/awayPic.png", (req, res) => {
-    res.sendFile(path.join(__dirname, "./images/awayPic.png"));
+    res.sendFile(path.join(__dirname, "./public/images/awayPic.png"));
 });
 app.listen(5000, () => {
     console.log("Server running on port 5000");
