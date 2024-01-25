@@ -11,7 +11,7 @@ const handleError = (err, res) => {
   };
 const app = express();
 const upload = multer({
-    dest: "/public/images/"
+    dest: "./public/images/"
     // you might also want to set some limits: https://github.com/expressjs/multer#limits
 });
 app.use(express.static(__dirname));
