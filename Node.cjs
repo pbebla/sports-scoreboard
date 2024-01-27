@@ -16,7 +16,7 @@ const upload = multer({
 });
 app.use(express.static(__dirname));
 app.use(express.json());
-app.get("/scoreboard", (req, res, next) => { 
+app.get("/", (req, res, next) => { 
  // show the page
     const _retfile = path.join(__dirname, 'scoreboard.html');
     res.sendFile(_retfile);
