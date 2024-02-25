@@ -2,9 +2,23 @@ body,html {
     margin: 0;
     padding: 0;
     background-color:rgb(138, 138, 138);
+    font-family: 'D-DIN', sans-serif;
+    font-weight: bold;
 }
 * {
     box-sizing: border-box;
+}
+
+.green-screen {
+    background-color:rgb(2, 255, 64);
+}
+
+.descBox {
+    background-color: black;
+    color: white;
+    width:fit-content;
+    padding: 1px 10px;
+    font-size: 3cqw;
 }
 
 .scoreboard {
@@ -59,9 +73,9 @@ body,html {
 
 .awayColorBox {
     position:absolute;
-    left:35.6%;
+    left:35.65%;
     top:0px;
-    width:35.6%;
+    width:35.7%;
     height:100%;
 }
 
@@ -76,47 +90,40 @@ body,html {
     height: 86.776859504%;
     position: absolute;
     left: 26.689000558%;
-    top: 0px;
-    font-size: 100px;
+    font-size: 6cqw;
     container-type: inline-size;
+    display: flex;
 }
 
 .awayScoreBox {
+    font-size: 6cqw;
     width: 8.821887213%;
     height: 86.776859504%;
     position: absolute;
     left: 62.255723059%;
-    top: 0px;
-    font-size: 100px;
     container-type: inline-size;
+    display: flex;
 }
 
 #homeScore {
     color: white;
     text-align: center;
-    font-family: 'D-Din', sans-serif;
-    font-size: 63.29113924cqw;
-    font-weight: bold;
+    align-items: center;
+    justify-content: center;
 }
 
 #awayScore {
     color: white;
     text-align: center;
-    font-family: 'D-Din', sans-serif;
-    font-size: 63.29113924cqw;
-    font-weight: bold;
+    align-items: center;
+    justify-content: center;
 }
 
-
-#clock {
-    font-family: 'D-Din', sans-serif;
-    font-size: 5cqw;
-    font-weight: bold;
-    background-color: #12181B;
-    text-align: center;
+.clockBox {
     position: absolute;
-    left: 85.98548297%;
-    top: 5px;
+    left: 86.985483%;
+    height: 86.776859504%;
+    font-size: 5cqw;
 /*     background-image: linear-gradient(180deg,
         rgba(99,253,136,1) 0%,
         rgba(51,197,142,1) 50%,
@@ -129,7 +136,15 @@ body,html {
     font-kerning:auto;
     letter-spacing: -2px;
     white-space: nowrap;
+    display: flex;
+}
+
+#clock {
+    background-color: black;
+    text-align: center;
     visibility: visible;
+    align-items: center;
+    justify-content: center;
 }
 
 .controls {
@@ -156,27 +171,33 @@ body,html {
 }
 
 .input-box {
-    width: fit-content;
     height: 30px;
     font-size: large;
+}
+
+.abbr {
+    width: 6ch;
+}
+
+.full {
+    width:auto;
 }
 
 #periodDisplay {
     color: black;
     text-align:center;
-    font-family: 'D-Din', sans-serif;
-    font-weight: bold;
-    font-size:55cqw;
+    align-items: center;
+    justify-content: center;
 }
 
 .periodBox {
+    font-size:5cqw;
     width: 8.821887213%;
     height: 86.776859504%;
     position: absolute;
-    left: 72.585147962%;
-    top: 5px;
-    font-size: 100px;
+    left: 74.585148%;
     container-type: inline-size;
+    display: flex;
 }
 
 .homeNameBox {
@@ -196,10 +217,10 @@ body,html {
     top: 0px;
     color: white;
     text-align: left;
-    font-family: 'D-Din', sans-serif;
-    font-weight: bold;
+    vertical-align: top;
     font-size: var(--fontSize);
     font-stretch: var(--fontStretch);
+    display: inline-block;
     text-wrap: nowrap;
 }
 
@@ -217,13 +238,11 @@ body,html {
 
 #awayName {
     --fontStretch:  100%;
-	--fontSize: 1px;
+	--fontSize: 26cqi;
     top: 0px;
     color: white;
     text-align: left;
     vertical-align: top;
-    font-family: 'D-Din', sans-serif;
-    font-weight: bold;
     font-size: var(--fontSize);
     font-stretch: var(--fontStretch);
     display: inline-block;
@@ -240,3 +259,5 @@ body,html {
 #homePic, #awayPic {
     height:100%;
 }
+
+/*font-family: 'NBCSN_Frank', sans-serif;*/

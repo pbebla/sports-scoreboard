@@ -1,0 +1,166 @@
+.short-scoreboard {
+    aspect-ratio: 1400 /121;
+    max-width: 1400px;
+    max-height: 121px;
+    display:flex;
+    position: relative;
+}
+
+.short-textBoardContainer {
+    position: relative;
+    display:flex;
+    width: 100%;
+    color: white;
+    container-type: inline-size;
+}
+
+.short-videoContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%; 
+}
+
+.short-homeColorBox {
+    position:absolute;
+    left: 0px;
+    top: 0px;
+    width: 33.79%;
+    height: 100%;
+}
+
+#short-homeColor {
+    background-color:rgba(240, 216, 171);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+}
+
+.short-awayColorBox {
+    position:absolute;
+    left:33.79%;
+    top:0px;
+    width:33.79%;
+    height:100%;
+}
+
+#short-awayColor {
+    background-color:rgb(171, 240, 182);
+    width: 100%;
+    height: 100%;
+}
+
+.short-homeScoreBox {
+    width: 11.642857142857%;
+    height: 86.776859504%;
+    position: absolute;
+    left: 22.1428571428%;
+    container-type: inline-size;
+    display: flex;
+    font-size: 7.5cqw;
+}
+
+.short-awayScoreBox {
+    width: 11.642857142857%;
+    height: 86.776859504%;
+    position: absolute;
+    left: 55.928571428%;
+    container-type: inline-size;
+    display: flex;
+    font-size: 7.5cqw;
+}
+
+#short-homeScore {
+    color: white;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+#short-awayScore {
+    color: white;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.short-clockBox {
+    position: absolute;
+    left: 84.985483%;
+    font-size: 6cqw;
+    height: 86.776859504%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    -moz-text-fill-color: transparent;
+    font-kerning:auto;
+    letter-spacing: -2px;
+    white-space: nowrap;
+    display: flex;
+}
+
+.short-periodBox {
+    font-size: 6cqw;
+    width: 10.821887%;
+    height: 86.776859504%;
+    position: absolute;
+    left: 70.585148%;
+    container-type: inline-size;
+    display: flex;
+}
+
+.short-homeNameBox {
+    width: 16%;
+    height: 90.77686%;
+    position: absolute;
+    left: 6.5%;
+    top: 0px;
+    container-type: inline-size;
+    font-stretch: 300% 500%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+
+#short-homeName {
+    --fontStretch:  100%;
+    top: 0px;
+    color: white;
+    font-size: var(--fontSize);
+    font-stretch: var(--fontStretch);
+    text-wrap: nowrap;
+}
+
+.short-awayNameBox {
+    width: 16%;
+    height: 90.77686%;
+    position: absolute;
+    left: 40%;
+    top: 0px;
+    container-type: inline-size;
+    font-stretch: 300% 500%;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+#short-awayName {
+    --fontStretch:  100%;
+    top: 0px;
+    color: white;
+    font-size: var(--fontSize);
+    font-stretch: var(--fontStretch);
+    text-wrap: nowrap;
+}
+
+.short-homePicBox, .short-awayPicBox {
+    overflow: hidden;
+    width:20%;
+    height: 88%;
+    direction:rtl;
+}

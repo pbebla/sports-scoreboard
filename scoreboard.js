@@ -1,10 +1,6 @@
 const display = document.getElementById('clock');
 const homeScoreDisplay = document.getElementById('homeScore');
 const awayScoreDisplay = document.getElementById('awayScore');
-const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
-audio.loop = true;
-let alarmTime = null;
-let alarmTimeout = null;
 let minutes = 1;
 let seconds = 0;
 let minutesDisplay = formatTime(minutes);
@@ -15,6 +11,8 @@ var interval;
 let homeScore = 0;
 let awayScore = 0;
 var clockDirection = "down";
+var homeJsonPath = 'home.json';
+var awayJsonPath = 'away.json';
 
 function updateHomeScore(offset) {
     homeScore += offset;
@@ -115,11 +113,14 @@ function startStopTimer() {
 }
 
 function setTime() {
-    if (!document.getElementById("minutes")) {
-        document.getElementById("minutes").value = 20;
+    if (document.getElementById("minutes").value=='') {
+        document.getElementById("minutes").value = 25;
     }
-    if (!document.getElementById("seconds")) {
+    if (document.getElementById("seconds").value=='') {
         document.getElementById("seconds").value = 0;
+    }
+    if (document.getElementById("ms").value=='') {
+        document.getElementById("ms").value = 0;
     }
     minutes = document.getElementById("minutes").value;
     seconds = document.getElementById("seconds").value;
@@ -161,9 +162,10 @@ var homeAnimation;
 var awayAnimation;
 
 function loadHomeGoalAnimation(){
+    console.log(homeJsonPath)
     homeAnimation = bodymovin.loadAnimation({
         container: document.getElementById('homeContainer'), // Required
-        path: 'home.json', // Required
+        path: homeJsonPath, // Required
         renderer: 'svg', // Required
         loop: false, // Optional
         autoplay: false, // Optional
@@ -172,9 +174,10 @@ function loadHomeGoalAnimation(){
 }
 
 function loadAwayGoalAnimation(){
+    console.log(awayJsonPath)
     awayAnimation = bodymovin.loadAnimation({
         container: document.getElementById('awayContainer'), // Required
-        path: 'away.json', // Required
+        path: awayJsonPath, // Required
         renderer: 'svg', // Required
         loop: false, // Optional
         autoplay: false, // Optional
@@ -228,16 +231,25 @@ let colorPicker;
 
 window.addEventListener("load", startup, false);
 
+function toHexString(num) {
+    if (num < 16) {
+        return '0' + num;
+    }
+    else {
+        return num;
+    }
+}
+
 function startup() {
     fetch('/home.json').then((response) => response.json())
         .then((data) => {
-        var r = (data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16);
-        var g = (data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16);
-        var b = (data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16);
+        var r = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
+        var g = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16));
+        var b = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16));
 
-        var r2 = (data['layers']['0']['shapes']['0']['it']['2']['c']['k']['0'] * 255).toString(16);
-        var g2 = (data['layers']['0']['shapes']['0']['it']['2']['c']['k']['1'] * 255).toString(16);
-        var b2 = (data['layers']['0']['shapes']['0']['it']['2']['c']['k']['2'] * 255).toString(16);
+        var r2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['0'] * 255).toString(16));
+        var g2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['1'] * 255).toString(16));
+        var b2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['2'] * 255).toString(16));
 
         hexString = '#' + r + g + b;
         hexString2 = '#' + r2 + g2 + b2;
@@ -245,17 +257,23 @@ function startup() {
         document.getElementById('homeColorSelection').setAttribute('value', hexString);
         document.getElementById('homeColor').style.backgroundColor = hexString;
         document.getElementById('home2ndColorSelection').setAttribute('value', hexString2);
+
+        var name = data['layers']['2']['t']['d']['k']['0']['s']['t'];
+
+        document.getElementById('homeFullName').value = name;
+        setName('home', 'homeFullName');
+        
     });
 
     fetch('/away.json').then((response) => response.json())
     .then((data) => {
-        var r = (data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16);
-        var g = (data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16);
-        var b = (data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16);
+        var r = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
+        var g = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16));
+        var b = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16));
 
-        var r2 = (data['layers']['0']['shapes']['0']['it']['2']['c']['k']['0'] * 255).toString(16);
-        var g2 = (data['layers']['0']['shapes']['0']['it']['2']['c']['k']['1'] * 255).toString(16);
-        var b2 = (data['layers']['0']['shapes']['0']['it']['2']['c']['k']['2'] * 255).toString(16);
+        var r2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['0'] * 255).toString(16));
+        var g2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['1'] * 255).toString(16));
+        var b2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['2'] * 255).toString(16));
 
         hexString = '#' + r + g + b;
         hexString2 = '#' + r2 + g2 + b2;
@@ -263,6 +281,11 @@ function startup() {
         document.getElementById('awayColorSelection').setAttribute('value', hexString);
         document.getElementById('awayColor').style.backgroundColor = hexString;
         document.getElementById('away2ndColorSelection').setAttribute('value', hexString2);
+
+        var name = data['layers']['2']['t']['d']['k']['0']['s']['t'];
+
+        document.getElementById('awayFullName').value = name;
+        setName('away', 'awayFullName');
     });
 
     homeColorPicker = document.querySelector("#homeColorSelection");
@@ -287,24 +310,42 @@ function startup() {
 
 }
 
-/*function updateFirst(event) {
-    console.log(event.target.value);
-}*/
-
 function updateHomeColors(event) {
-    updateColors(event, './home.json', 'homeColor', '/homeJSON', 'homeName');
+    var name;
+    if (document.getElementById('board-type').value == "Short") {
+        name = "short-homeName";
+        updateColors(event, './short_home.json', 'homeColor', '/short-homeJSON', name);
+    } else {
+        name = "homeName";
+        updateColors(event, './home.json', 'homeColor', '/homeJSON', name);
+    }
 }
 
 function updateAwayColors(event) {
-    updateColors(event, './away.json', 'awayColor', '/awayJSON', 'awayName');
+    var name;
+    if (document.getElementById('board-type').value == "Short") {
+        name = "short-awayName";
+        updateColors(event, './short_away.json', 'awayColor', '/short-awayJSON', name);
+    } else {
+        name = "awayName";
+        updateColors(event, './away.json', 'awayColor', '/awayJSON', name);
+    }
 }
 
 function updateHome2ndColors(event) {
-    update2ndColors(event, './home.json', 'homeColor', '/homeJSON');
+    if (document.getElementById('board-type').value == "Short") {
+        update2ndColors(event, './short_home.json', 'homeColor', '/short-homeJSON');
+    } else {
+        update2ndColors(event, './home.json', 'homeColor', '/homeJSON');
+    }
 }
 
 function updateAway2ndColors(event) {
-    update2ndColors(event, './away.json', 'awayColor', '/awayJSON');
+    if (document.getElementById('board-type').value == "Short") {
+        update2ndColors(event, './short_away.json', 'awayColor', '/short-awayJSON');
+    } else {
+        update2ndColors(event, './away.json', 'awayColor', '/awayJSON');
+    }
 }
 
 function updateColors(ev, json, id, postURL, name) {
@@ -373,15 +414,13 @@ function update2ndColors(ev, json, id, postURL) {
     console.log(`red: ${r}, green: ${g}, blue: ${b}`)
 }
 
-// !!!! This code is experimental...don't blame me if your performance tanks.
-
 const homeNameBox = document.getElementById('homeNameBoxClass');
-const homeName = document.getElementById("homeName");
+var homeName = document.getElementById("homeName");
 
 const awayNameBox = document.getElementById('awayNameBoxClass');
-const awayName = document.getElementById("awayName");
+var awayName = document.getElementById("awayName");
 
-function calcTextWidth(name) {
+function calcTextWidth(name, nameBox, nameElement) {
 	const parentContainerWidth = name.parentNode.clientWidth;
 
 	const currentTextWidth = name.scrollWidth;
@@ -399,7 +438,14 @@ function calcTextWidth(name) {
     
     if (newTextWidth > parentContainerWidth) {
         calcTextSize(name);
+        let { width: ww, height: wh } = nameBox.getBoundingClientRect();
+        let { width: cw, height: ch } = nameElement.getBoundingClientRect();
+    
+        let scaleAmtX = ww / cw;
+        let scaleAmtY = wh / ch;
+        nameElement.style.setProperty('-webkit-transform', `scale(1, ${scaleAmtY})`);
     }
+
     console.log('parent: ' + parentContainerWidth + ' textwidth: ' + currentTextWidth + ' stretch: ' +currentFontStretch + ' new width: ' + newTextWidth);
 
 	//const newValue = Math.min(Math.max(300, (parentContainerWidth / currentTextWidth) * currentFontStretch), 500)
@@ -418,20 +464,50 @@ function calcTextSize(name) {
     console.log('parent: ' + parentContainerWidth + ' textwidth: ' + currentTextWidth + ' size: ' +currentFontSize + ' new: ' + newValue);
 }
 
-function setName(name, abbr) {
+function setName(type, abbr) {
+    var name = type+"Name";
+    var shortName = "short-"+name;
+    var nameBox;
     var nameElement = document.getElementById(name);
+    var shortNameElement = document.getElementById(shortName);
     var newName = document.getElementById(abbr).value;
-    nameElement.innerHTML = newName;
-    if (name == "homeName") {
-        console.log(window.getComputedStyle(homeName).fontSize);
-        nameElement.style.setProperty('--fontSize', '26cqw');
-        calcTextWidth(homeName);
+    var newShortName = document.getElementById(type+"Abbr").value;
+    if (nameElement) {
+        nameElement.innerHTML = newName;
+        nameElement.style.setProperty('-webkit-transform', `scale(1, 1)`);
+        if (document.getElementById('board-type').value == "Short") {
+            nameElement.style.setProperty('--fontSize', '42cqw');
+        } else {
+            nameElement.style.setProperty('--fontSize', '26cqw');
+        }
+    }
+    if (shortNameElement) {
+        shortNameElement.innerHTML = newShortName;
+        shortNameElement.style.setProperty('-webkit-transform', `scale(1, 1)`);
+        if (document.getElementById('board-type').value == "Short") {
+            shortNameElement.style.setProperty('--fontSize', '42cqw');
+        } else {
+            shortNameElement.style.setProperty('--fontSize', '26cqw');
+        }
+    }
+    if (type=="home") {
+        nameBox = document.getElementById('homeNameBoxClass');
+        if (nameElement) {
+            calcTextWidth(homeName, nameBox, nameElement);
+        } else {
+            calcTextWidth(homeName, nameBox, shortNameElement);
+        }
         updateName(homeName, newName, './home.json', '/homeJSON');
-    } else if (name == "awayName") {
-        console.log(window.getComputedStyle(awayName).fontSize);
-        nameElement.style.setProperty('--fontSize', '26cqw');
-        calcTextWidth(awayName);
+        updateName(homeName, newName, './short_home.json', '/short-homeJSON');
+    } else if (type=="away") {
+        nameBox = document.getElementById('awayNameBoxClass');
+        if (nameElement) {
+            calcTextWidth(awayName, nameBox, nameElement);
+        } else {
+            calcTextWidth(awayName, nameBox, shortNameElement);
+        }
         updateName(awayName, newName, './away.json', '/awayJSON');
+        updateName(awayName, newName, './short_away.json', '/short-awayJSON');
     }
 }
 
@@ -540,3 +616,85 @@ Mousetrap.bind('space', function(e) {
     startStopTimer();
 });
 
+function changeBoardType() {
+    var template = document.getElementById('template');
+    var select = document.getElementById('board-type');
+    //Then get it's value
+    var type = select.value;
+    console.log(type);
+    if (type == "Short") {
+        template.src = "public/images/short-comp.png";
+
+        document.getElementsByClassName("scoreboard")[0].className = "short-scoreboard";
+
+        homeJsonPath = 'short_home.json';
+        awayJsonPath = 'short_away.json';
+
+        document.getElementById("homeContainer").className = 'short-videoContainer';
+        document.getElementById("awayContainer").className = 'short-videoContainer';
+
+        document.getElementsByClassName("homeColorBox")[0].className = "short-homeColorBox";
+        document.getElementsByClassName("awayColorBox")[0].className = "short-awayColorBox";
+        
+        document.getElementById('homeNameBoxClass').className = "short-homeNameBox";
+        document.getElementById('awayNameBoxClass').className = "short-awayNameBox";
+
+        homeName.id = "short-homeName";
+        awayName.id = "short-awayName";
+        homeName = document.getElementById("short-homeName");
+        awayName = document.getElementById("short-awayName");
+        console.log(homeName);
+
+        document.getElementsByClassName("awayScoreBox")[0].className = "short-awayScoreBox";
+        document.getElementsByClassName("homeScoreBox")[0].className = "short-homeScoreBox";
+
+        document.getElementsByClassName("awayPicBox")[0].className = "short-awayPicBox";
+        document.getElementsByClassName("homePicBox")[0].className = "short-homePicBox";
+
+        document.getElementById('clock').className = "short-clockBox";
+        document.getElementById('periodDisplay').className = "short-periodBox";
+    } else {
+        template.src = "public/images/template.png";
+
+        document.getElementsByClassName("short-scoreboard")[0].className = "scoreboard";
+
+        homeJsonPath = 'home.json';
+        awayJsonPath = 'away.json';
+
+        document.getElementById("homeContainer").className = 'videoContainer';
+        document.getElementById("awayContainer").className = 'videoContainer';
+
+        document.getElementsByClassName("short-homeColorBox")[0].className = "homeColorBox";
+        document.getElementsByClassName("short-awayColorBox")[0].className = "awayColorBox";
+
+        document.getElementById('homeNameBoxClass').className = "homeNameBox";
+        document.getElementById('awayNameBoxClass').className = "awayNameBox";
+
+        homeName.id = "homeName";
+        awayName.id = "awayName";
+        homeName = document.getElementById("homeName");
+        awayName = document.getElementById("awayName");
+
+
+        document.getElementsByClassName("short-awayScoreBox")[0].className = "awayScoreBox";
+        document.getElementsByClassName("short-homeScoreBox")[0].className = "homeScoreBox";
+
+        document.getElementsByClassName("short-awayPicBox")[0].className = "awayPicBox";
+        document.getElementsByClassName("short-homePicBox")[0].className = "homePicBox";
+
+        document.getElementById('clock').className = "clockBox";
+        document.getElementsByClassName('short-periodBox')[0].className = "periodBox";
+        document.getElementById('short-periodDisplay').className = "periodBox";
+    }
+
+}
+
+function setDesc() {
+    var newText = document.getElementById('descText').value;
+    if (newText == '') {
+        document.getElementById('description').style.visibility = "hidden";
+    } else {
+        document.getElementById('description').style.visibility = "visible";
+    }
+    document.getElementById('description').innerHTML = document.getElementById('descText').value;
+}

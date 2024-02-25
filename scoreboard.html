@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="scoreboard.css">
+    <link rel="stylesheet" href="short-scoreboard.css">
     <script src="./node_modules/hacktimer/HackTimer.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -14,6 +15,8 @@
     <title>Scoreboard</title>
 </head>
 <body>
+    <div class="green-screen">
+    <div id="description" class="descBox"></div>
     <div class="scoreboard">
         <div class="homeColorBox">
             <div id="homeColor">
@@ -30,17 +33,17 @@
             </div>
         </div>
         <div class="textBoardContainer">
-            <img src="public/images/template.png">
+            <img id="template" src="public/images/template.png">
             <div class="homeNameBox" id="homeNameBoxClass"><div id="homeName"></div></div>
             <div class="awayNameBox" id="awayNameBoxClass"><div id="awayName"></div></div>
-            <div class="homeScoreBox"><div id="homeScore"></div></div>
-            <div class="awayScoreBox"><div id="awayScore"></div></div>
-            <div class="periodBox"><div id="periodDisplay"></div></div>
+            <div class="homeScoreBox" id="homeScore"></div>
+            <div class="awayScoreBox" id="awayScore"></div>
+            <div class="periodBox" id="periodDisplay"></div>
+            <div class="clockBox" id="clock"></div>
             <div id="homeContainer" class="videoContainer"></div>
             <div id="awayContainer" class="videoContainer"></div>
-            <div id="clock"></div>
         </div>
-    </div>
+    </div></div>
     <section class="controlContainer">
         <div class="controls"><br>
             <label for="period">Period:</label> 
@@ -56,7 +59,7 @@
             <label for="minutes">Min:</label>
             <input id="minutes" class="input-box"
             oninput="javascript: if (this.value.length > 2) this.value = this.value.slice(0, 2);"
-            type="number" min="0" max="59" placeholder="20" onkeyup="showMe(this)"/>
+            type="number" min="0" max="59" placeholder="25" onkeyup="showMe(this)"/>
             <label for="seconds">Sec:</label>
             <input id="seconds" class="input-box"
             oninput="javascript: if (this.value.length > 2) this.value = this.value.slice(0, 2);"
@@ -73,8 +76,9 @@
                 <input class="button set-alarm" type="submit" value="Set Home Logo">
                 <input id="homeFile" type="file" name="homeFile">
             </form><br>
-            <label for="homeAbbr">Home Abbr:</label><input type="text"  class="input-box"id="homeAbbr"/>
-            <input type="submit" id="homeNameButton" onclick="setName('homeName', 'homeAbbr')" class="button set-alarm"></input>
+            <label for="homeFullName">Home Name:</label><input type="text"  class="full input-box"id="homeFullName"/>
+            <label for="homeAbbr">Abbr:</label><input type="text"  class="abbr input-box"id="homeAbbr"/>
+            <input type="submit" id="homeNameButton" onclick="setName('home', 'homeFullName')" class="button set-alarm"></input>
             <label for="homeColorSelection">Primary:</label><input type="color" id="homeColorSelection"/>
             <label for="home2ndColorSelection">Secondary:</label><input type="color" id="home2ndColorSelection"/>
             <button onclick="updateHomeScore(1)" class="button set-alarm">+1</button>
@@ -85,15 +89,23 @@
                 <input class="button set-alarm" type="submit" value="Set Away Logo">
                 <input id="awayFile" type="file" name="awayFile">
             </form><br>
-            <label for="awayAbbr">Away Abbr:</label><input type="text"  class="input-box" id="awayAbbr"/>
-            <input type="submit" id="awayNameButton" onclick="setName('awayName', 'awayAbbr')" class="button set-alarm"></input>
+            <label for="awayFullName">Away Name:</label><input type="text"  class="full input-box" id="awayFullName"/>
+            <label for="awayAbbr">Abbr:</label><input type="text"  class="abbr input-box"id="awayAbbr"/>
+            <input type="submit" id="awayNameButton" onclick="setName('away', 'awayFullName')" class="button set-alarm"></input>
             <label for="awayColorSelection">Primary:</label><input type="color" id="awayColorSelection"/>
             <label for="away2ndColorSelection">Secondary:</label><input type="color" id="away2ndColorSelection"/>
             <button onclick="updateAwayScore(1)" class="button set-alarm">+1</button>
             <button onclick="updateAwayScore(-1)" class="button clear-alarm">-1</button><br><br>
             <button id="timerButton" onclick="startStopTimer()" class="button set-alarm">Start</button>
             <button onclick="homeGoal()" class="button set-alarm">HOME Goal</button>
-            <button onclick="awayGoal()" class="button set-alarm">Away Goal</button><br><br>
+            <button onclick="awayGoal()" class="button set-alarm">Away Goal</button><br><br><br>
+            <label for="board-type">Type:</label> 
+                <select name="types" id="board-type" class="input-box" onchange="changeBoardType()"> 
+                    <option value="Expanded">Expanded</option> 
+                    <option value="Short">Short</option> 
+                </select>
+            <label for="descText">Description:</label><input type="text"  class="full input-box"id="descText"/>
+            <input type="submit" id="descButton" onclick="setDesc()" class="button set-alarm"></input>
         </div>
     </section>
     <script src="lottie.js"></script>
