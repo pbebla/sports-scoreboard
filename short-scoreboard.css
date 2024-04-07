@@ -61,6 +61,10 @@
     display: flex;
     font-size: 7.5cqw;
 }
+#short-dash {
+    left: 32.3%;
+    visibility: hidden;
+}
 
 .short-awayScoreBox {
     width: 11.642857142857%;
@@ -163,4 +167,37 @@
     width:20%;
     height: 88%;
     direction:rtl;
+}
+
+.short2-awayPicBox {
+    position: relative;
+    left: 80%;
+    overflow: hidden;
+    width:20%;
+    height: 88%;
+    direction:ltr;
+}
+
+.short2-awayNameBox {
+    width: 16%;
+    height: 90.77686%;
+    position: absolute;
+    left: 45.5%;
+    top: 0px;
+    container-type: inline-size;
+    font-stretch: 300% 500%;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.short2-awayScoreBox {
+    width: 11.642857142857%;
+    height: 86.776859504%;
+    position: absolute;
+    left: 33.75%;
+    container-type: inline-size;
+    display: flex;
+    font-size: 7.5cqw;
 }

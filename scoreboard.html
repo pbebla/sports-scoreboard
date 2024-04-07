@@ -37,6 +37,7 @@
             <div class="homeNameBox" id="homeNameBoxClass"><div id="homeName"></div></div>
             <div class="awayNameBox" id="awayNameBoxClass"><div id="awayName"></div></div>
             <div class="homeScoreBox" id="homeScore"></div>
+            <div class="short-homeScoreBox" id="short-dash">-</div>
             <div class="awayScoreBox" id="awayScore"></div>
             <div class="periodBox" id="periodDisplay"></div>
             <div class="clockBox" id="clock"></div>
@@ -81,8 +82,9 @@
             <input type="submit" id="homeNameButton" onclick="setName('home', 'homeFullName')" class="button set-alarm"></input>
             <label for="homeColorSelection">Primary:</label><input type="color" id="homeColorSelection"/>
             <label for="home2ndColorSelection">Secondary:</label><input type="color" id="home2ndColorSelection"/>
+            <button onclick="updateHomeScore(-1)" class="button clear-alarm">-1</button>
             <button onclick="updateHomeScore(1)" class="button set-alarm">+1</button>
-            <button onclick="updateHomeScore(-1)" class="button clear-alarm">-1</button><br><br>
+            <br><br>
 
 
             <form id="awayForm" enctype="multipart/form-data">
@@ -94,8 +96,9 @@
             <input type="submit" id="awayNameButton" onclick="setName('away', 'awayFullName')" class="button set-alarm"></input>
             <label for="awayColorSelection">Primary:</label><input type="color" id="awayColorSelection"/>
             <label for="away2ndColorSelection">Secondary:</label><input type="color" id="away2ndColorSelection"/>
+            <button onclick="updateAwayScore(-1)" class="button clear-alarm">-1</button>
             <button onclick="updateAwayScore(1)" class="button set-alarm">+1</button>
-            <button onclick="updateAwayScore(-1)" class="button clear-alarm">-1</button><br><br>
+            <br><br>
             <button id="timerButton" onclick="startStopTimer()" class="button set-alarm">Start</button>
             <button onclick="homeGoal()" class="button set-alarm">HOME Goal</button>
             <button onclick="awayGoal()" class="button set-alarm">Away Goal</button><br><br><br>

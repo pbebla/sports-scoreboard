@@ -241,6 +241,25 @@ function toHexString(num) {
 }
 
 function startup() {
+    homeColorPicker = document.querySelector("#homeColorSelection");
+    //homeColorPicker.addEventListener("input", updateFirst, false);
+    homeColorPicker.addEventListener("change", updateHomeColors, false);
+    homeColorPicker.select();
+
+    home2ndColorPicker = document.querySelector("#home2ndColorSelection");
+    //home2ndColorPicker.addEventListener("input", updateFirst, false);
+    home2ndColorPicker.addEventListener("change", updateHome2ndColors, false);
+    home2ndColorPicker.select();
+
+    awayColorPicker = document.querySelector("#awayColorSelection");
+    //awayColorPicker.addEventListener("input", updateFirst, false);
+    awayColorPicker.addEventListener("change", updateAwayColors, false);
+    awayColorPicker.select();
+
+    away2ndColorPicker = document.querySelector("#away2ndColorSelection");
+    //away2ndColorPicker.addEventListener("input", updateFirst, false);
+    away2ndColorPicker.addEventListener("change", updateAway2ndColors, false);
+    away2ndColorPicker.select();
     fetch('/home.json').then((response) => response.json())
         .then((data) => {
         var r = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
@@ -262,6 +281,7 @@ function startup() {
 
         document.getElementById('homeFullName').value = name;
         setName('home', 'homeFullName');
+        updateColors(hexString, './home.json', 'homeColor', '/homeJSON', "homeName");
         
     });
 
@@ -286,49 +306,32 @@ function startup() {
 
         document.getElementById('awayFullName').value = name;
         setName('away', 'awayFullName');
+        updateColors(hexString, './away.json', 'awayColor', '/awayJSON', "awayName");
     });
-
-    homeColorPicker = document.querySelector("#homeColorSelection");
-    //homeColorPicker.addEventListener("input", updateFirst, false);
-    homeColorPicker.addEventListener("change", updateHomeColors, false);
-    homeColorPicker.select();
-
-    home2ndColorPicker = document.querySelector("#home2ndColorSelection");
-    //home2ndColorPicker.addEventListener("input", updateFirst, false);
-    home2ndColorPicker.addEventListener("change", updateHome2ndColors, false);
-    home2ndColorPicker.select();
-
-    awayColorPicker = document.querySelector("#awayColorSelection");
-    //awayColorPicker.addEventListener("input", updateFirst, false);
-    awayColorPicker.addEventListener("change", updateAwayColors, false);
-    awayColorPicker.select();
-
-    away2ndColorPicker = document.querySelector("#away2ndColorSelection");
-    //away2ndColorPicker.addEventListener("input", updateFirst, false);
-    away2ndColorPicker.addEventListener("change", updateAway2ndColors, false);
-    away2ndColorPicker.select();
 
 }
 
 function updateHomeColors(event) {
     var name;
+    var color = event.target.value
     if (document.getElementById('board-type').value == "Short") {
         name = "short-homeName";
-        updateColors(event, './short_home.json', 'homeColor', '/short-homeJSON', name);
+        updateColors(color, './short_home.json', 'homeColor', '/short-homeJSON', name);
     } else {
         name = "homeName";
-        updateColors(event, './home.json', 'homeColor', '/homeJSON', name);
+        updateColors(color, './home.json', 'homeColor', '/homeJSON', name);
     }
 }
 
 function updateAwayColors(event) {
     var name;
+    var color = event.target.value
     if (document.getElementById('board-type').value == "Short") {
         name = "short-awayName";
-        updateColors(event, './short_away.json', 'awayColor', '/short-awayJSON', name);
+        updateColors(color, './short_away.json', 'awayColor', '/short-awayJSON', name);
     } else {
         name = "awayName";
-        updateColors(event, './away.json', 'awayColor', '/awayJSON', name);
+        updateColors(color, './away.json', 'awayColor', '/awayJSON', name);
     }
 }
 
@@ -348,8 +351,7 @@ function updateAway2ndColors(event) {
     }
 }
 
-function updateColors(ev, json, id, postURL, name) {
-    const color = ev.target.value
+function updateColors(color, json, id, postURL, name) {
     const r = parseInt(color.substr(1,2), 16) / 255
     const g = parseInt(color.substr(3,2), 16) / 255
     const b = parseInt(color.substr(5,2), 16) / 255
@@ -622,11 +624,15 @@ function changeBoardType() {
     //Then get it's value
     var type = select.value;
     console.log(type);
-    if (type == "Short") {
-        template.src = "public/images/short-comp.png";
+    if (type == "Short" || type == "Short 2") {
+        if (type == "Short") {
+            template.src = "public/images/short-comp2.png";
+        } else {
+            template.src = "public/images/short-comp2.png";
+        }
 
         document.getElementsByClassName("scoreboard")[0].className = "short-scoreboard";
-
+        document.getElementById("short-dash").style.visibility = "visible";
         homeJsonPath = 'short_home.json';
         awayJsonPath = 'short_away.json';
 
@@ -637,7 +643,7 @@ function changeBoardType() {
         document.getElementsByClassName("awayColorBox")[0].className = "short-awayColorBox";
         
         document.getElementById('homeNameBoxClass').className = "short-homeNameBox";
-        document.getElementById('awayNameBoxClass').className = "short-awayNameBox";
+        document.getElementById('awayNameBoxClass').className = "short2-awayNameBox";
 
         homeName.id = "short-homeName";
         awayName.id = "short-awayName";
@@ -645,17 +651,17 @@ function changeBoardType() {
         awayName = document.getElementById("short-awayName");
         console.log(homeName);
 
-        document.getElementsByClassName("awayScoreBox")[0].className = "short-awayScoreBox";
+        document.getElementsByClassName("awayScoreBox")[0].className = "short2-awayScoreBox";
         document.getElementsByClassName("homeScoreBox")[0].className = "short-homeScoreBox";
 
-        document.getElementsByClassName("awayPicBox")[0].className = "short-awayPicBox";
+        document.getElementsByClassName("awayPicBox")[0].className = "short2-awayPicBox";
         document.getElementsByClassName("homePicBox")[0].className = "short-homePicBox";
 
         document.getElementById('clock').className = "short-clockBox";
         document.getElementById('periodDisplay').className = "short-periodBox";
     } else {
         template.src = "public/images/template.png";
-
+        document.getElementById("short-dash").style.visibility = "hidden";
         document.getElementsByClassName("short-scoreboard")[0].className = "scoreboard";
 
         homeJsonPath = 'home.json';
@@ -676,10 +682,10 @@ function changeBoardType() {
         awayName = document.getElementById("awayName");
 
 
-        document.getElementsByClassName("short-awayScoreBox")[0].className = "awayScoreBox";
+        document.getElementsByClassName("short2-awayScoreBox")[0].className = "awayScoreBox";
         document.getElementsByClassName("short-homeScoreBox")[0].className = "homeScoreBox";
 
-        document.getElementsByClassName("short-awayPicBox")[0].className = "awayPicBox";
+        document.getElementsByClassName("short2-awayPicBox")[0].className = "awayPicBox";
         document.getElementsByClassName("short-homePicBox")[0].className = "homePicBox";
 
         document.getElementById('clock').className = "clockBox";
