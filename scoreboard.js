@@ -13,6 +13,7 @@ let awayScore = 0;
 var clockDirection = "down";
 var homeJsonPath = 'home.json';
 var awayJsonPath = 'away.json';
+var blankLogo = {"home": false, "away": false};
 
 function updateHomeScore(offset) {
     homeScore += offset;
@@ -225,6 +226,14 @@ function showPeriod() {
   var period = select.value;
     //After that you just need to write it somewhere in the document
     document.getElementById('periodDisplay').innerHTML = period;
+
+    if (document.getElementById('period').value == '') {
+        document.getElementById('template').style.setProperty("width", "86%");
+        document.getElementById('clock').style.setProperty("left", "70%");
+    } else {
+        document.getElementById('template').style.setProperty("width", "100%");
+        document.getElementById('clock').style.setProperty("left", "85.6%");
+    }
 }
 
 let colorPicker;
@@ -232,7 +241,7 @@ let colorPicker;
 window.addEventListener("load", startup, false);
 
 function toHexString(num) {
-    if (num < 16) {
+    if (num < 10) {
         return '0' + num;
     }
     else {
@@ -262,9 +271,9 @@ function startup() {
     away2ndColorPicker.select();
     fetch('/home.json').then((response) => response.json())
         .then((data) => {
-        var r = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
-        var g = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16));
-        var b = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16));
+        var r = toHexString((data['layers']['9']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
+        var g = toHexString((data['layers']['9']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16));
+        var b = toHexString((data['layers']['9']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16));
 
         var r2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['0'] * 255).toString(16));
         var g2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['1'] * 255).toString(16));
@@ -276,6 +285,7 @@ function startup() {
         document.getElementById('homeColorSelection').setAttribute('value', hexString);
         document.getElementById('homeColor').style.backgroundColor = hexString;
         document.getElementById('home2ndColorSelection').setAttribute('value', hexString2);
+        document.getElementById('homeColor2').style.backgroundColor = hexString2;
 
         var name = data['layers']['2']['t']['d']['k']['0']['s']['t'];
 
@@ -287,9 +297,9 @@ function startup() {
 
     fetch('/away.json').then((response) => response.json())
     .then((data) => {
-        var r = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
-        var g = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16));
-        var b = toHexString((data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16));
+        var r = toHexString((data['layers']['9']['shapes']['0']['it']['1']['c']['k']['0'] * 255).toString(16));
+        var g = toHexString((data['layers']['9']['shapes']['0']['it']['1']['c']['k']['1'] * 255).toString(16));
+        var b = toHexString((data['layers']['9']['shapes']['0']['it']['1']['c']['k']['2'] * 255).toString(16));
 
         var r2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['0'] * 255).toString(16));
         var g2 = toHexString((data['layers']['0']['shapes']['0']['it']['2']['c']['k']['1'] * 255).toString(16));
@@ -301,6 +311,7 @@ function startup() {
         document.getElementById('awayColorSelection').setAttribute('value', hexString);
         document.getElementById('awayColor').style.backgroundColor = hexString;
         document.getElementById('away2ndColorSelection').setAttribute('value', hexString2);
+        document.getElementById('awayColor2').style.backgroundColor = hexString2;
 
         var name = data['layers']['2']['t']['d']['k']['0']['s']['t'];
 
@@ -309,6 +320,13 @@ function startup() {
         updateColors(hexString, './away.json', 'awayColor', '/awayJSON', "awayName");
     });
 
+    if (document.getElementById('period').value == '') {
+        document.getElementById('template').style.setProperty("width", "86%");
+        document.getElementById('clock').style.setProperty("left", "72.6%");
+    } else {
+        document.getElementById('template').style.setProperty("width", "100%");
+        document.getElementById('clock').style.setProperty("left", "85.6%");
+    }
 }
 
 function updateHomeColors(event) {
@@ -337,17 +355,17 @@ function updateAwayColors(event) {
 
 function updateHome2ndColors(event) {
     if (document.getElementById('board-type').value == "Short") {
-        update2ndColors(event, './short_home.json', 'homeColor', '/short-homeJSON');
+        update2ndColors(event, './short_home.json', 'homeColor2', '/short-homeJSON');
     } else {
-        update2ndColors(event, './home.json', 'homeColor', '/homeJSON');
+        update2ndColors(event, './home.json', 'homeColor2', '/homeJSON');
     }
 }
 
 function updateAway2ndColors(event) {
     if (document.getElementById('board-type').value == "Short") {
-        update2ndColors(event, './short_away.json', 'awayColor', '/short-awayJSON');
+        update2ndColors(event, './short_away.json', 'awayColor2', '/short-awayJSON');
     } else {
-        update2ndColors(event, './away.json', 'awayColor', '/awayJSON');
+        update2ndColors(event, './away.json', 'awayColor2', '/awayJSON');
     }
 }
 
@@ -368,9 +386,9 @@ function updateColors(color, json, id, postURL, name) {
 
     fetch(json).then((response) => response.json())
     .then((data) => {
-        data['layers']['10']['shapes']['0']['it']['1']['c']['k']['0'] = r;
-        data['layers']['10']['shapes']['0']['it']['1']['c']['k']['1'] = g;
-        data['layers']['10']['shapes']['0']['it']['1']['c']['k']['2'] = b;
+        data['layers']['9']['shapes']['0']['it']['1']['c']['k']['0'] = r;
+        data['layers']['9']['shapes']['0']['it']['1']['c']['k']['1'] = g;
+        data['layers']['9']['shapes']['0']['it']['1']['c']['k']['2'] = b;
 
         data['layers']['2']['t']['d']['k']['0']['s']['fc']['0'] = fontColor;
         data['layers']['2']['t']['d']['k']['0']['s']['fc']['1'] = fontColor;
@@ -379,6 +397,7 @@ function updateColors(color, json, id, postURL, name) {
         data['layers']['4']['t']['d']['k']['0']['s']['fc']['0'] = fontColor;
         data['layers']['4']['t']['d']['k']['0']['s']['fc']['1'] = fontColor;
         data['layers']['4']['t']['d']['k']['0']['s']['fc']['2'] = fontColor;
+        console.log(data);
         fetch(postURL, {
             method: 'POST',
             headers: {
@@ -412,7 +431,7 @@ function update2ndColors(ev, json, id, postURL) {
             body: JSON.stringify(data),
         });
     });
-
+    document.getElementById(id).style.backgroundColor = color;
     console.log(`red: ${r}, green: ${g}, blue: ${b}`)
 }
 
@@ -467,6 +486,29 @@ function calcTextSize(name) {
 }
 
 function setName(type, abbr) {
+    if (blankLogo[type]) {
+        if (type == "home") {
+            document.getElementById("homeNameBoxClass").style.setProperty("left", "1%");
+            document.getElementById("homeNameBoxClass").style.setProperty("width", "25%");
+            //document.getElementsByClassName("homePicBox")[0].style.setProperty("width", "0%");
+        } else {
+            document.getElementById("awayNameBoxClass").style.setProperty("left", "36.5%");
+            document.getElementById("awayNameBoxClass").style.setProperty("width", "25%");
+            //document.getElementsByClassName("awayPicBox")[0].style.setProperty("width", "0%");
+        }
+        
+    } else {
+        if (type == "home") {
+            //document.getElementById("homeNameBoxClass").style.setProperty("left", "6.5%");
+            //document.getElementById("homeNameBoxClass").style.setProperty("width", "20%");
+            //document.getElementsByClassName("homePicBox")[0].style.setProperty("width", "17%");
+        } else {
+            //document.getElementById("awayNameBoxClass").style.setProperty("left", "42%");
+            //document.getElementById("awayNameBoxClass").style.setProperty("width", "20%");
+            //document.getElementsByClassName("awayPicBox")[0].style.setProperty("width", "17%");
+        }
+        
+    }
     var name = type+"Name";
     var shortName = "short-"+name;
     var nameBox;
@@ -537,7 +579,9 @@ async function handleHomeForm(event) {
     var img = new Image();
     var width, height;
     var _URL = window.URL || window.webkitURL;
-    console.log(document.getElementById('homeFile'));
+    var file = (document.getElementById('homeFile').files[0]);
+    blankLogo["home"] = (file.name == "blank.png");
+    console.log(file);
     var objectUrl = _URL.createObjectURL((document.getElementById('homeFile').files[0]));
     img.onload = function () {
         width = 205;
@@ -576,7 +620,9 @@ async function handleAwayForm(event) {
     var img = new Image();
     var width, height;
     var _URL = window.URL || window.webkitURL;
-    console.log(document.getElementById('awayFile'));
+    var file = (document.getElementById('awayFile').files[0]);
+    console.log(file);
+    blankLogo["away"] = (file.name == "blank.png");
     var objectUrl = _URL.createObjectURL((document.getElementById('awayFile').files[0]));
     img.onload = function () {
         width = 205;
@@ -699,8 +745,10 @@ function setDesc() {
     var newText = document.getElementById('descText').value;
     if (newText == '') {
         document.getElementById('description').style.visibility = "hidden";
+        document.getElementsByClassName('descBox')[0].style.visibility = "hidden";
     } else {
         document.getElementById('description').style.visibility = "visible";
+        document.getElementsByClassName('descBox')[0].style.visibility = "visible";
     }
     document.getElementById('description').innerHTML = document.getElementById('descText').value;
 }

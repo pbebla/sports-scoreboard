@@ -9,8 +9,23 @@ body,html {
     box-sizing: border-box;
 }
 
+#template {
+    object-fit: cover;
+    object-position: left;
+    width: 100%;
+    height: 100%;
+}
+
+#period {
+    width: 3%;
+}
+
 .green-screen {
     background-color:rgb(2, 255, 64);
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-left: 10px;
 }
 
 .descBox {
@@ -47,7 +62,7 @@ body,html {
 
 .controlContainer {
     background-color: none!important;
-    min-height: 100vh;
+    min-height: 50vh;
     font-size: 2vh;
     flex-direction: column;
     justify-content: center;
@@ -63,7 +78,23 @@ body,html {
     height: 100%;
 }
 
+.homeColorBox2 {
+    position:absolute;
+    left: 0px;
+    top: 88%;
+    width: 35.6%;
+    height: 12%;
+}
+
 #homeColor {
+    background-color:rgba(240, 216, 171);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+}
+
+#homeColor2 {
     background-color:rgba(240, 216, 171);
     width: 100%;
     height: 100%;
@@ -79,10 +110,26 @@ body,html {
     height:100%;
 }
 
+.awayColorBox2 {
+    position:absolute;
+    left: 35.65%;
+    top: 88%;
+    width: 35.6%;
+    height: 12%;
+}
+
 #awayColor {
     background-color:rgb(171, 240, 182);
     width: 100%;
     height: 100%;
+}
+
+#awayColor2 {
+    background-color:rgba(240, 216, 171);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
 }
 
 .homeScoreBox {
@@ -121,7 +168,7 @@ body,html {
 
 .clockBox {
     position: absolute;
-    left: 86.985483%;
+    left: 85.6%;
     height: 86.776859504%;
     font-size: 5cqw;
 /*     background-image: linear-gradient(180deg,
@@ -195,7 +242,7 @@ body,html {
     width: 8.821887213%;
     height: 86.776859504%;
     position: absolute;
-    left: 74.585148%;
+    left: 73.5%;
     container-type: inline-size;
     display: flex;
 }
@@ -261,3 +308,10 @@ body,html {
 }
 
 /*font-family: 'NBCSN_Frank', sans-serif;*/
+
+#teamTable {
+    font-size: 2.5cqw;
+}
+#teamTable.td {
+    align-items: rtl;
+}

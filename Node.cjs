@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const multer = require("multer");
 const image_size = require('image-size');
+const dict = require('./dict')
 const port = 8080;
 
 const handleError = (err, res) => {
@@ -31,10 +32,22 @@ app.get("/homePic.png", (req, res) => {
 app.get("/awayPic.png", (req, res) => {
   res.sendFile(path.join(__dirname, "./public/images/awayPic.png"));
 });
-
+app.post("/addTeamToTable", (req, res) => {
+  dict.addEntry(req.body.teamName, req.body.teamPoints);
+  res.send();
+})
 //update goal animation json files
 app.post('/homeJSON', (req, res) => {
-  updateJSON('./home.json', req, res);
+  try{
+    updateJSON('./home.json', req, res);
+  } catch (error) {
+    // Log the specific error for debugging
+    console.error('Error processing /homeJSON:', error);
+    // Send a more informative error response to the client (optional, for development)
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    // For production, you might send a less detailed error:
+    // res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 app.post('/awayJSON', (req, res) => {
   updateJSON('./away.json', req, res);

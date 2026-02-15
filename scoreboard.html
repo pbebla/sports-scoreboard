@@ -44,10 +44,17 @@
             <div id="homeContainer" class="videoContainer"></div>
             <div id="awayContainer" class="videoContainer"></div>
         </div>
+        <div class="homeColorBox2">
+            <div id="homeColor2"></div>
+        </div>
+        <div class="awayColorBox2">
+            <div id="awayColor2"></div>
+        </div>
     </div></div>
     <section class="controlContainer">
         <div class="controls"><br>
-            <label for="period">Period:</label> 
+            <label for="period">Period:</label> <input id="period" type="text" oninput="showPeriod()" placeholder="1st"/>
+            <!--label for="period">Period:</label> 
                 <select name="periods" id="period" class="input-box" onchange="showPeriod()"> 
                     <option value="1st">1st</option> 
                     <option value="2nd">2nd</option> 
@@ -56,7 +63,7 @@
                     <option value="OT">OT</option> 
                     <option value="HALF">HALF</option> 
                     <option value="FINAL">FINAL</option> 
-                </select>
+                </select-->
             <label for="minutes">Min:</label>
             <input id="minutes" class="input-box"
             oninput="javascript: if (this.value.length > 2) this.value = this.value.slice(0, 2);"
@@ -111,8 +118,20 @@
             <input type="submit" id="descButton" onclick="setDesc()" class="button set-alarm"></input>
         </div>
     </section>
+    <section>
+        <table id="teamTable">
+            <tr>
+                <th>Team</th>
+                <th>Points</th>
+            </tr>
+        </table>
+        <input id="teamName" class="full input-box" type="text">
+        <input id="teamPoints" class="abbr input-box" type="number">
+        <button class="button set-alarm" onclick="addEntry()">Add Team</button>
+    </section>
     <script src="lottie.js"></script>
     <script src="scoreboard.js"></script>
+    <script src="dict.js"></script>
 </body>
 </html>
 
